@@ -3,92 +3,95 @@ import pandas as pd
 import joblib
 import os
 
-st.title("Credit Risk Prediction")
+st.title("Credit Risk Prediction Form")
 
 # Define the path to the directory containing the files
-# Assuming the Streamlit app will be run from the same directory or a subdirectory
-# where the 'deploy_credito' folder is accessible.
-# You might need to adjust this path based on your deployment environment.
 path = "deploy_credito" # Adjust this path if necessary
 
-# --- Data Loading ---
-filename_test = "datos_credito_alemania_qa_test.csv"
-try:
-    df = pd.read_csv(os.path.join(path, filename_test), sep=";")
-    st.write("Original Data:")
-    st.write(df)
-except FileNotFoundError:
-    st.error(f"Error: {filename_test} not found in {path}. Please ensure the file is in the correct location.")
-    st.stop()
-
-# --- Preprocessing ---
+# --- Load Encoders and Model ---
 label_encoder_file = "label_encoder.joblib"
 one_hot_encoder_file = "one_hot_encoder.joblib"
+best_knn_model_file = "best_knn_model_2025-10-07.pkl"
 
 try:
     le = joblib.load(os.path.join(path, label_encoder_file))
     ohe = joblib.load(os.path.join(path, one_hot_encoder_file))
-except FileNotFoundError:
-    st.error(f"Error: Encoder files not found in {path}. Please ensure '{label_encoder_file}' and '{one_hot_encoder_file}' are in the correct location.")
-    st.stop()
-
-
-# Apply label encoding
-try:
-    df['Housing_encoded'] = le.transform(df['Housing'])
-    df['Saving accounts_encoded'] = le.transform(df['Saving accounts'])
-    # Ensure the label encoder has been trained on both 'male' and 'female' for the Sex column
-    df['Sex_encoded'] = le.transform(df['Sex'])
-except ValueError as e:
-    st.error(f"Error during label encoding: {e}. This might be due to unseen labels in the data.")
-    st.stop()
-
-
-# Apply one-hot encoding to 'Job'
-try:
-    job_encoded = ohe.transform(df[['Job']])
-    job_encoded_df = pd.DataFrame(job_encoded, columns=ohe.get_feature_names_out(['Job']), index=df.index)
-    df = pd.concat([df.drop('Job', axis=1), job_encoded_df], axis=1)
-except ValueError as e:
-     st.error(f"Error during one-hot encoding: {e}. This might be due to unseen categories in the 'Job' column.")
-     st.stop()
-
-
-# Drop original columns
-df = df.drop(['Sex', 'Housing', 'Saving accounts', 'Checking account'], axis=1)
-
-# Reorder columns to match the training data if necessary
-# This part is crucial for the model prediction
-# Assuming the model was trained on columns in this specific order.
-# You might need to explicitly define the expected column order.
-expected_columns = ['Age', 'Credit amount', 'Duration', 'Sex_encoded', 'Housing_encoded', 'Saving accounts_encoded', 'Job_0.0', 'Job_1.0', 'Job_2.0', 'Job_3.0']
-# Ensure all expected columns are in the dataframe after preprocessing
-missing_cols = set(expected_columns) - set(df.columns)
-if missing_cols:
-    st.error(f"Error: Missing columns after preprocessing: {missing_cols}. Please check your preprocessing steps.")
-    st.stop()
-
-# Reindex the dataframe to ensure the columns are in the correct order for prediction
-df = df.reindex(columns=expected_columns)
-
-
-st.write("Processed Data (ready for prediction):")
-st.write(df)
-
-# --- Model Loading and Prediction ---
-best_knn_model_file = "best_knn_model_2025-10-07.pkl"
-try:
     knn_model = joblib.load(os.path.join(path, best_knn_model_file))
-except FileNotFoundError:
-    st.error(f"Error: Model file not found in {path}. Please ensure '{best_knn_model_file}' is in the correct location.")
+except FileNotFoundError as e:
+    st.error(f"Error loading necessary files: {e}. Please ensure the encoder and model files are in the correct location ({path}).")
     st.stop()
 
+# --- Input Form ---
+st.header("Enter Customer Details:")
 
-# Make predictions
-try:
-    y_pred = knn_model.predict(df)
-    st.write("Predictions:")
-    st.write(y_pred)
-except Exception as e:
-    st.error(f"Error during prediction: {e}")
-    st.stop()
+with st.form("prediction_form"):
+    age = st.number_input("Age", min_value=0, max_value=120, value=30)
+    sex = st.selectbox("Sex", ["female", "male"])
+    job = st.selectbox("Job", [0.0, 1.0, 2.0, 3.0]) # Assuming these are the possible job categories based on your one-hot encoding
+    housing = st.selectbox("Housing", ["own", "free", "rent"]) # Assuming these are the possible housing types
+    saving_accounts = st.selectbox("Saving accounts", ["little", "moderate", "quite rich", "rich"]) # Assuming these are the possible saving account levels
+    checking_account = st.selectbox("Checking account", ["little", "moderate", "rich"]) # Assuming these are the possible checking account levels
+    credit_amount = st.number_input("Credit amount", min_value=0, value=1000)
+    duration = st.number_input("Duration (months)", min_value=0, value=12)
+
+    submitted = st.form_submit_button("Get Prediction")
+
+# --- Prediction ---
+if submitted:
+    # Create a DataFrame from input data
+    input_data = pd.DataFrame({
+        'Age': [age],
+        'Sex': [sex],
+        'Job': [job],
+        'Housing': [housing],
+        'Saving accounts': [saving_accounts],
+        'Checking account': [checking_account],
+        'Credit amount': [credit_amount],
+        'Duration': [duration]
+    })
+
+    # --- Preprocessing Input Data ---
+    # Apply label encoding
+    try:
+        input_data['Housing_encoded'] = le.transform(input_data['Housing'])
+        input_data['Saving accounts_encoded'] = le.transform(input_data['Saving accounts'])
+        input_data['Sex_encoded'] = le.transform(input_data['Sex'])
+    except ValueError as e:
+        st.error(f"Error during label encoding input: {e}. Please check the input values.")
+        st.stop()
+
+    # Apply one-hot encoding to 'Job'
+    try:
+        job_encoded_input = ohe.transform(input_data[['Job']])
+        job_encoded_input_df = pd.DataFrame(job_encoded_input, columns=ohe.get_feature_names_out(['Job']), index=input_data.index)
+        input_data = pd.concat([input_data.drop('Job', axis=1), job_encoded_input_df], axis=1)
+    except ValueError as e:
+         st.error(f"Error during one-hot encoding input: {e}. Please check the input value for 'Job'.")
+         st.stop()
+
+
+    # Drop original columns used for encoding
+    input_data = input_data.drop(['Sex', 'Housing', 'Saving accounts', 'Checking account'], axis=1)
+
+    # Reorder columns to match the training data
+    # Assuming the model was trained on columns in this specific order.
+    expected_columns = ['Age', 'Credit amount', 'Duration', 'Sex_encoded', 'Housing_encoded', 'Saving accounts_encoded', 'Job_0.0', 'Job_1.0', 'Job_2.0', 'Job_3.0']
+    try:
+        input_data = input_data.reindex(columns=expected_columns, fill_value=0) # Use fill_value=0 for missing one-hot encoded columns
+    except Exception as e:
+        st.error(f"Error reordering columns: {e}")
+        st.stop()
+
+    st.write("Processed Input Data:")
+    st.write(input_data)
+
+    # --- Make Prediction ---
+    try:
+        prediction = knn_model.predict(input_data)
+        st.subheader("Prediction:")
+        if prediction[0] == 1:
+            st.success("Credit Approved")
+        else:
+            st.error("Credit Denied")
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
