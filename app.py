@@ -45,7 +45,7 @@ if submitted:
         'Duration': [duration]
     })"""
     
-    input_data = pd.DataFrame([[Age, Sex, Job, Housing, saving_accounts, checking_account, credit_amount,Duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
+    input_data = pd.DataFrame([[Age, Sex, Job, Housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
     
     print("******************************************************")
     print(input_data)
