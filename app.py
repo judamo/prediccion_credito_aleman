@@ -52,7 +52,7 @@ if submitted:
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
-        input_data['Housing_encoded'] = le.transform(input_data['Housing'])
+        input_data['Housing_encoded'] = le.transform(input_data[['Housing']])
         input_data['Saving accounts_encoded'] = le.transform(input_data['Saving accounts'])
         input_data['Sex_encoded'] = le.transform(input_data['Sex'])
     except ValueError as e:
