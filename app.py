@@ -47,6 +47,8 @@ if submitted:
     
     input_data = pd.DataFrame([[age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
     
+    df['Housing'] = df['Housing'].astype('category')
+    
     print("******************************************************")
     
     st.dataframe(input_data) 
