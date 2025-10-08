@@ -34,16 +34,16 @@ with st.form("prediction_form"):
 # --- Prediction ---
 if submitted:
     # Create a DataFrame from input data
-    input_data = pd.DataFrame({
+    """input_data = pd.DataFrame({
         'Age': [age],
         'Sex': [sex],
         'Job': [job],
-        'Housing': housing,
+        'Housing': [housing],
         'Saving accounts': [saving_accounts],
         'Checking account': [checking_account],
         'Credit amount': [credit_amount],
         'Duration': [duration]
-    })
+    })"""
     
     #input_data = pd.DataFrame([[age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
     
