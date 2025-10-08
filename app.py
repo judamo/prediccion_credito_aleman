@@ -14,9 +14,9 @@ def load_resources():
     le_saving   = joblib.load('label_encoder_saving.joblib')
     ohe         = joblib.load('one_hot_encoder.joblib')
     knn_model   = joblib.load('best_knn_model_2025-10-07.pkl')
-    return le, ohe, knn_model
+    return le_sex,le_housing,le_saving, ohe, knn_model
 
-le, ohe, knn_model = load_resources()
+le_sex,le_housing,le_saving, ohe, knn_model = load_resources()
 
 # --- Input Form ---
 st.header("Enter Customer Details:")
