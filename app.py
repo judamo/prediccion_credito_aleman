@@ -34,7 +34,7 @@ with st.form("prediction_form"):
 # --- Prediction ---
 if submitted:
     # Create a DataFrame from input data
-    input_data = pd.DataFrame({
+    """input_data = pd.DataFrame({
         'Age': [age],
         'Sex': [sex],
         'Job': [job],
@@ -43,7 +43,10 @@ if submitted:
         'Checking account': [checking_account],
         'Credit amount': [credit_amount],
         'Duration': [duration]
-    })
+    })"""
+    
+    input_data = pd.DataFrame([[Age, Sex, Job, Housing, saving_accounts, checking_account, credit_amount,Duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
+    
     print("******************************************************")
     print(input_data)
     # --- Preprocessing Input Data ---
