@@ -6,7 +6,7 @@ import os
 st.title("Credit Risk Prediction Form")
 
 # Define the path to the directory containing the files
-path = "deploy_credito" # Adjust this path if necessary
+path = "/mount/src/prediccion_credito_aleman/" # Adjust this path if necessary
 
 # --- Load Encoders and Model ---
 label_encoder_file = "label_encoder.joblib"
