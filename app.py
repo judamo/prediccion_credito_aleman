@@ -9,9 +9,11 @@ st.title("Credit Risk Prediction Form")
 # Load the preprocessors and model
 @st.cache_resource
 def load_resources():
-    le = joblib.load('label_encoder.joblib')
-    ohe = joblib.load('one_hot_encoder.joblib')
-    knn_model = joblib.load('best_knn_model_2025-10-07.pkl')
+    le_sex      = joblib.load('label_encoder_sex.joblib')
+    le_housing  = joblib.load('label_encoder_housing.joblib')
+    le_saving   = joblib.load('label_encoder_saving.joblib')
+    ohe         = joblib.load('one_hot_encoder.joblib')
+    knn_model   = joblib.load('best_knn_model_2025-10-07.pkl')
     return le, ohe, knn_model
 
 le, ohe, knn_model = load_resources()
@@ -59,9 +61,9 @@ if submitted:
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
-        input_data['Sex_encoded'] = le.transform(input_data[['Sex']])
-        input_data['Housing_encoded'] = le.transform( input_data[['Housing']] )
-        input_data['Saving accounts_encoded'] = le.transform(input_data[['Saving accounts']])
+        input_data['Sex_encoded'] = le_sex.transform(input_data[['Sex']])
+        input_data['Housing_encoded'] = le_housing.transform( input_data[['Housing']] )
+        input_data['Saving accounts_encoded'] = le_saving.transform(input_data[['Saving accounts']])
         
     except ValueError as e:
         st.error(f"valor1:{housing}valor2: {input_data[['Housing']]} ")
