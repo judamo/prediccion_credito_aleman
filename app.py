@@ -14,6 +14,8 @@ def load_resources():
     knn_model = joblib.load('best_knn_model_2025-10-07.pkl')
     return le, ohe, knn_model
 
+le, ohe, knn_model = load_resources()
+
 # --- Input Form ---
 st.header("Enter Customer Details:")
 
