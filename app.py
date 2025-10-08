@@ -30,7 +30,7 @@ with st.form("prediction_form"):
     #housing = st.selectbox("Housing", ["own", "free", "rent"]) # Assuming these are the possible housing types
     saving_accounts = st.selectbox("Saving accounts", ["little", "moderate", "quite rich", "rich"]) # Assuming these are the possible saving account levels
     checking_account = st.selectbox("Checking account", ["little", "moderate", "rich"]) # Assuming these are the possible checking account levels
-    credit_amount = st.number_input("Credit amount", min_value=500, value=10000)
+    credit_amount = st.number_input("Credit amount", min_value=500, max_value=10000,value=5000)
     duration = st.number_input("Duration (months)", min_value=6, value=36)
 
     submitted = st.form_submit_button("Get Prediction")
