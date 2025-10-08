@@ -53,6 +53,7 @@ if submitted:
         input_data['Saving accounts_encoded'] = le.transform(input_data['Saving accounts'])
         input_data['Sex_encoded'] = le.transform(input_data['Sex'])
     except ValueError as e:
+        st.error(f"jdm {housing}---{input_data['Housing']} ")
         st.error(f"Error during label encoding input: {e}. Please check the input values.")
         st.stop()
 
