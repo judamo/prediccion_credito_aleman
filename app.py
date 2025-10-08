@@ -23,7 +23,9 @@ with st.form("prediction_form"):
     age = st.number_input("Age", min_value=0, max_value=120, value=30)
     sex = st.selectbox("Sex", ["female", "male"])
     job = st.selectbox("Job", [0.0, 1.0, 2.0, 3.0]) # Assuming these are the possible job categories based on your one-hot encoding
-    housing = st.selectbox("Housing", ["own", "free", "rent"]) # Assuming these are the possible housing types
+    housing_options = ["own", "free", "rent"]
+    housing = st.selectbox('Housing', housing_options)
+    #housing = st.selectbox("Housing", ["own", "free", "rent"]) # Assuming these are the possible housing types
     saving_accounts = st.selectbox("Saving accounts", ["little", "moderate", "quite rich", "rich"]) # Assuming these are the possible saving account levels
     checking_account = st.selectbox("Checking account", ["little", "moderate", "rich"]) # Assuming these are the possible checking account levels
     credit_amount = st.number_input("Credit amount", min_value=0, value=1000)
