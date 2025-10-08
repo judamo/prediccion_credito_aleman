@@ -34,7 +34,7 @@ with st.form("prediction_form"):
 # --- Prediction ---
 if submitted:
     # Create a DataFrame from input data
-    """input_data = pd.DataFrame({
+    input_data = pd.DataFrame({
         'Age': [age],
         'Sex': [sex],
         'Job': [job],
@@ -43,9 +43,9 @@ if submitted:
         'Checking account': [checking_account],
         'Credit amount': [credit_amount],
         'Duration': [duration]
-    })"""
+    })
     
-    input_data = pd.DataFrame([[age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
+    #input_data = pd.DataFrame([[age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
     
     print("******************************************************")
     print(input_data)
@@ -56,7 +56,7 @@ if submitted:
         input_data['Saving accounts_encoded'] = le.transform(input_data['Saving accounts'])
         input_data['Sex_encoded'] = le.transform(input_data['Sex'])
     except ValueError as e:
-        st.error(f"valor1:{housing}valor2:{input_data[['Housing']]}")
+        st.error(f"valor1:{housing}valor2: {input_data[['Housing']]} ")
         st.error(f"Error during label encoding input: {e}. Please check the input values.")
         st.stop()
 
