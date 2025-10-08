@@ -54,12 +54,12 @@ if submitted:
     print("******************************************************")
     
     st.dataframe(input_data) 
-    st.header(input_data['Housing'][0]) 
+    st.header(input_data[['Housing']]) 
     #st.error(input_data)
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
-        input_data['Sex_encoded'] = le.transform(input_data['Sex'])
+        input_data['Sex_encoded'] = le.transform(input_data[['Sex']])
         input_data['Housing_encoded'] = le.transform( input_data[['Housing']] )
         input_data['Saving accounts_encoded'] = le.transform(input_data[['Saving accounts']])
         
