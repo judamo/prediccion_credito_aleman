@@ -47,7 +47,7 @@ if submitted:
         'Duration': [duration]
     })"""
     
-    input_data = pd.DataFrame([[age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration]], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
+    input_data = pd.DataFrame([age, sex, job, housing, saving_accounts, checking_account, credit_amount,duration], columns=['Age','Sex','Job','Housing','Saving accounts','Checking account','Credit amount','Duration'])
     
     input_data['Housing'] = input_data['Housing'].astype('category')
     
@@ -59,7 +59,7 @@ if submitted:
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
-        #input_data['Housing_encoded'] = le.transform( input_data[['Housing']] )
+        input_data['Housing_encoded'] = le.transform( input_data[['Housing']] )
         #input_data['Saving accounts_encoded'] = le.transform(input_data['Saving accounts'])
         input_data['Sex_encoded'] = le.transform(input_data['Sex'])
     except ValueError as e:
