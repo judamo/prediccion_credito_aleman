@@ -38,7 +38,7 @@ if submitted:
         'Age': [age],
         'Sex': [sex],
         'Job': [job],
-        'Housing': [housing],
+        'Housing': housing,
         'Saving accounts': [saving_accounts],
         'Checking account': [checking_account],
         'Credit amount': [credit_amount],
