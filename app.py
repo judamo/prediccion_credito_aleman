@@ -54,7 +54,7 @@ if submitted:
     print("******************************************************")
     
     st.dataframe(input_data) 
-    st.header(input_data[['Housing']]) 
+    st.header(input_data['Housing'][0]) 
     #st.error(input_data)
     # --- Preprocessing Input Data ---
     # Apply label encoding
