@@ -57,7 +57,7 @@ if submitted:
         input_data['Sex_encoded'] = le.transform(input_data['Sex'])
     except ValueError as e:
         st.error(f"valor1:{housing}valor2: {input_data[['Housing']]} ")
-        st.error(f"valor3:{input_data['Housing']} ")
+        st.error(f"valor3:{input_data['Housing'][0]} ")
         st.error(f"Error during label encoding input: {e}. Please check the input values.")
         st.stop()
 
