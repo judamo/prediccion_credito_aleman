@@ -5,21 +5,14 @@ import os
 
 st.title("Credit Risk Prediction Form")
 
-# Define the path to the directory containing the files
-path = "/mount/src/prediccion_credito_aleman/" # Adjust this path if necessary
 
-# --- Load Encoders and Model ---
-label_encoder_file = "label_encoder.joblib"
-one_hot_encoder_file = "one_hot_encoder.joblib"
-best_knn_model_file = "best_knn_model_2025-10-07.pkl"
-
-try:
-    le = joblib.load(os.path.join(path, label_encoder_file))
-    ohe = joblib.load(os.path.join(path, one_hot_encoder_file))
-    knn_model = joblib.load(os.path.join(path, best_knn_model_file))
-except FileNotFoundError as e:
-    st.error(f"Error loading necessary files: {e}. Please ensure the encoder and model files are in the correct location ({path}).")
-    st.stop()
+# Load the preprocessors and model
+@st.cache_resource
+def load_resources():
+    le = joblib.load('label_encoder.joblib')
+    ohe = joblib.load('one_hot_encoder.joblib')
+    knn_model = joblib.load('best_knn_model_2025-10-07.pkl')
+    return le, ohe, knn_model
 
 # --- Input Form ---
 st.header("Enter Customer Details:")
