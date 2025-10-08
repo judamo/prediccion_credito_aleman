@@ -44,7 +44,7 @@ if submitted:
         'Credit amount': [credit_amount],
         'Duration': [duration]
     })
-
+    print(input_data)
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
