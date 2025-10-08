@@ -59,7 +59,8 @@ if submitted:
     # --- Preprocessing Input Data ---
     # Apply label encoding
     try:
-        input_data['Sex_encoded'] = le.transform(input_data['Sex'])
+        #input_data['Sex_encoded'] = le.transform(input_data['Sex'])
+        input_data['Sex_encoded'] = le.transform("female")
         input_data['Housing_encoded'] = le.transform( input_data[['Housing']] )
         input_data['Saving accounts_encoded'] = le.transform(input_data[['Saving accounts']])
         
